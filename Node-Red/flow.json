@@ -1,0 +1,87 @@
+[
+    {
+        "id": "c3536cd17820b998",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "418fe2b5cb9e4f79",
+        "type": "inject",
+        "z": "c3536cd17820b998",
+        "name": "Timestamp",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 230,
+        "y": 240,
+        "wires": [
+            [
+                "bc309a1a147795b0"
+            ]
+        ]
+    },
+    {
+        "id": "bc309a1a147795b0",
+        "type": "function",
+        "z": "c3536cd17820b998",
+        "name": "Sensor Data-Simulation",
+        "func": "const now = new Date();\nconst year = now.getFullYear();\nconst month = String(now.getMonth() + 1).padStart(2, '0');\nconst day = String(now.getDate()).padStart(2, '0');\nconst hour = String(now.getHours()).padStart(2, '0');\nconst minute = String(now.getMinutes()).padStart(2, '0');\n\nconst filename = `sensor_${hour}${minute}.json`;\n\n// Create folder path\nmsg.localpath = `C:/Users/vijay/Desktop/GCT Project/raw/Year ${year}/Month ${month}/Day ${day}/${hour}/${filename}`;\nmsg.filename = `raw/${year}/${month}/${day}/${hour}/${filename}`;\n\nmsg.payload = JSON.stringify({\n    timestamp: now.toISOString(),\n    pH: (6 + Math.random() * 2).toFixed(2),\n    conductivity: (100 + Math.random() * 50).toFixed(2),\n    pressure: (1 + Math.random() * 5).toFixed(2),\n    temperature: (20 + Math.random() * 15).toFixed(2),\n    fillLevel: (Math.random() * 100).toFixed(2),\n    flow: (10 + Math.random() * 5).toFixed(2),\n    humidity: (30 + Math.random() * 20).toFixed(2),\n    co2: (400 + Math.random() * 100).toFixed(2)\n});\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 240,
+        "wires": [
+            [
+                "99493db61e6ec4fd",
+                "f6634c63a68779ae"
+            ]
+        ]
+    },
+    {
+        "id": "99493db61e6ec4fd",
+        "type": "file",
+        "z": "c3536cd17820b998",
+        "name": "",
+        "filename": "localpath",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "utf8",
+        "x": 740,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f6634c63a68779ae",
+        "type": "amazon s3 out",
+        "z": "c3536cd17820b998",
+        "aws": "",
+        "bucket": "co2-plant-raw-data",
+        "filename": "",
+        "localFilename": "",
+        "region": "eu-north-1",
+        "name": "",
+        "x": 780,
+        "y": 320,
+        "wires": []
+    }
+]
