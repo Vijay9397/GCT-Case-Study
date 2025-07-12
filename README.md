@@ -1,4 +1,4 @@
-# 🌿 GCT Case Study – CO₂ Plant Data Pipeline (By Vijay)
+# 🌿 GCT Case Study – CO₂ Plant Data Pipeline 
 
 ## 👋 Introduction
 
@@ -114,16 +114,20 @@ Thresholds for alerts:
 
 ---
 
-## 📂 Repository Structure (Suggested)
+## 📂 Repository Structure 
 
 ```
-📁 node-red/
-  └── gct-flow.json            ← Node-RED flow export
+📁 Documents/
+  └── Vijay_Presentation.pptx            ← Node-RED flow export
+📁 Node-Red/
+  └── flow.json                          ← Node-RED flow export
+  └── node-red-flow.png                  ← Node-RED flow export
+  └── sensor-simulation.js               ← Node-RED flow export
 📁 lambda/
-  └── lambda_function.py       ← Processing script
+  └── process_sensor_data.py             ← Processing script
 📁 samples/
-  └── sensor_sample.json       ← Sample input file
+  └── sensor_sample.json                 ← Sample input file
 📁 screenshots/
-  └── *.png                    ← Visual evidence
-📄 README.md                   ← This file
+  └── *.png                              ← Visual evidence
+📄 README.md                            ← This file
 ```
