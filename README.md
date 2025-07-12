@@ -1,29 +1,129 @@
-# 🌿 GCT Sensor Data Processing Pipeline
+# 🌿 GCT Case Study – CO₂ Plant Data Pipeline (By Vijay)
 
-This project simulates, collects, stores, and analyzes plant-related environmental sensor data using a combination of **Node-RED**, **AWS S3**, and **AWS Lambda**. It is part of the GCT (Green Carbon Technology) project, aimed at building a modular and scalable IoT analytics system.
+## 👋 Introduction
 
----
+This project is part of the GCT Case Study Challenge, where I’ve built a fully functional data pipeline that simulates a CO₂ capturing plant's sensor system. My goal was to ingest real-time data, structure it in the cloud, and automatically process it — using only AWS free-tier tools.
 
-## 📌 Features
-
-- ⚙️ **Simulated Sensor Data**: Generates synthetic readings for pH, temperature, humidity, CO2, and more.
-- 📁 **Local Archival**: Stores raw data files in a time-based folder hierarchy on a Windows machine.
-- ☁️ **Cloud Upload**: Automatically pushes raw `.json` files to AWS S3 in real-time.
-- 🧠 **Lambda-Driven Processing**: Triggers AWS Lambda to analyze sensor statistics and detect threshold violations.
-- 📊 **Structured Summary Output**: Saves mean, standard deviation, and alert flags to a second processed-data S3 bucket.
+This README documents my process, tools, and how the system works end-to-end.
 
 ---
 
-## 🧱 Architecture Overview
+## 🧪 Project Summary
 
-```plaintext
-Node-RED (sensor generator)
-     ├── Write to local path: C:/Users/vijay/Desktop/GCT Project/raw/...
-     └── Upload to AWS S3 → co2-plant-raw-data (via msg.filename)
+- **Sensor Simulation**: 8 virtual sensors generate data every 10 seconds.
+- **Data Format**: NDJSON (each line = one reading).
+- **Storage**: Every 1 minute, a file containing 6 readings is created.
+- **Upload**: Each file is saved to both local disk and S3 using Node-RED.
+- **Trigger**: AWS Lambda processes every new file uploaded to S3.
+- **Output**: A summary file with stats and alerts is saved to a second S3 bucket.
 
-AWS S3
-     ├── Bucket 1: co2-plant-raw-data
-     └── Bucket 2: co2-plant-processed-data
+---
 
-AWS Lambda (triggered by ObjectCreated in raw bucket)
-     └── Reads JSON → Computes mean/stddev → Detects threshold violations → Writes summary JSON to processed bucket
+## 🔧 Tools I Used
+
+| Tool            | Why I Used It                         |
+| --------------- | ------------------------------------- |
+| **Node-RED**    | To generate and send JSON sensor data |
+| **AWS S3**      | For cloud storage (raw + processed)   |
+| **AWS Lambda**  | For automatic processing + alerting   |
+| **Python 3.12** | Lambda runtime and scripting          |
+
+---
+
+## 📁 Folder Structure in S3
+
+### Input: `co2-plant-raw-data`
+
+```
+raw/
+  └── Year YYYY/
+      └── Month MM/
+          └── Day DD/
+              └── HH/
+                  └── sensor_HHMM.json
+```
+
+Each JSON file contains 6 lines like this:
+
+```json
+{"timestamp":"...","pH":"7.5",...,"co2":"410.0"}
+```
+
+---
+
+### Output: `co2-plant-processed-data`
+
+```
+processed/
+  └── sensor_HHMM_summary.json
+```
+
+Each summary file looks like this:
+
+```json
+{
+  "source_file": "raw/Year.../sensor_0832.json",
+  "summary": {
+    "pH": {"mean": 7.2, "std_dev": 0.4},
+    "temperature": {"mean": 25.3, "std_dev": 1.8}
+  },
+  "alert_flags": [
+    "⚠️ ALERT: pH = 5.8 at 2025-07-12T08:13:40Z"
+  ]
+}
+```
+
+---
+
+## ⚙️ Lambda: What It Does
+
+Whenever a file is uploaded to `raw/` in S3:
+
+1. **Reads** the file line by line.
+2. **Parses** each reading.
+3. **Calculates** mean and standard deviation for each sensor.
+4. **Checks** if any value crosses alert thresholds.
+5. **Saves** a summary file in `co2-plant-processed-data`.
+
+Thresholds for alerts:
+
+| Sensor        | Rule                  |
+| ------------- | --------------------- |
+| `pH`          | `< 6.0 or > 8.5`      |
+| `temperature` | `< 5°C or > 40°C`     |
+| `pressure`    | `< 1 bar or > 10 bar` |
+| `co2`         | `< 300 or > 1000 ppm` |
+
+---
+
+## 🧠 What I Learned
+
+- Working with AWS Lambda triggers and permissions (IAM).
+- Handling race conditions in S3 file availability.
+- Structuring data in the cloud for long-term storage and scalability.
+- Debugging tricky JSON issues with newline-delimited formats.
+
+---
+
+## 🚧 Improvements I’m Planning
+
+- Add unit tests for the Lambda function.
+- Push alerts to a dashboard or SNS topic.
+- Automatically visualize processed stats in Grafana or QuickSight.
+- Replace hardcoded alert rules with config stored in S3 or DynamoDB.
+
+---
+
+## 📂 Repository Structure (Suggested)
+
+```
+📁 node-red/
+  └── gct-flow.json            ← Node-RED flow export
+📁 lambda/
+  └── lambda_function.py       ← Processing script
+📁 samples/
+  └── sensor_sample.json       ← Sample input file
+📁 screenshots/
+  └── *.png                    ← Visual evidence
+📄 README.md                   ← This file
+```
