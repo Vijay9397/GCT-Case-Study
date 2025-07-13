@@ -1,4 +1,4 @@
-# 🌿 GCT Case Study – CO₂ Plant Data Pipeline 
+# 🌿 GCT Case Study – CO₂ Plant Data Pipeline (By Vijay)
 
 ## 👋 Introduction
 
@@ -16,6 +16,7 @@ This README documents my process, tools, and how the system works end-to-end.
 - **Upload**: Each file is saved to both local disk and S3 using Node-RED.
 - **Trigger**: AWS Lambda processes every new file uploaded to S3.
 - **Output**: A summary file with stats and alerts is saved to a second S3 bucket.
+- **Dashboard**: Data visualized using AWS Glue, Athena, and QuickSight.
 
 ---
 
@@ -26,6 +27,9 @@ This README documents my process, tools, and how the system works end-to-end.
 | **Node-RED**    | To generate and send JSON sensor data |
 | **AWS S3**      | For cloud storage (raw + processed)   |
 | **AWS Lambda**  | For automatic processing + alerting   |
+| **AWS Glue**    | Crawling processed data               |
+| **AWS Athena**  | Querying processed data               |
+| **QuickSight**  | Dashboard visualization               |
 | **Python 3.12** | Lambda runtime and scripting          |
 
 ---
@@ -102,6 +106,8 @@ Thresholds for alerts:
 - Handling race conditions in S3 file availability.
 - Structuring data in the cloud for long-term storage and scalability.
 - Debugging tricky JSON issues with newline-delimited formats.
+- Using Glue + Athena to power dashboard queries.
+- Creating QuickSight visuals directly from Lambda output.
 
 ---
 
@@ -114,20 +120,27 @@ Thresholds for alerts:
 
 ---
 
-## 📂 Repository Structure 
+## 📂 Repository Structure (Suggested)
 
 ```
-📁 Documents/
-  └── Vijay_Presentation.pptx            ← Node-RED flow export
-📁 Node-Red/
-  └── flow.json                          ← Node-RED flow export
-  └── node-red-flow.png                  ← Node-RED flow export
-  └── sensor-simulation.js               ← Node-RED flow export
+📁 node-red/
+  └── gct-flow.json                              ← Node-RED flow export
 📁 lambda/
-  └── process_sensor_data.py             ← Processing script
+  └── lambda_function.py                         ← Processing script
 📁 samples/
-  └── sensor_sample.json                 ← Sample input file
+  └── sensor_sample.json                         ← Sample input file
 📁 screenshots/
-  └── *.png                              ← Visual evidence
-📄 README.md                            ← This file
+  └── *.png                                      ← Visual evidence (Node-RED UI, Glue, Athena, QuickSight)
+📄 README.md                                     ← This file   
+📄 Case Study Data & Process Analytics.pdf       ← This file 
+📄 Vijay_Presentation.pptx                       ← This file
 ```
+
+---
+
+## 🤝 About Me
+
+Hi! I’m Vijay. This case study was a great hands-on experience where I learned to think like a systems integrator — working with real-time data, serverless compute, and cloud architecture, all from the ground up.
+
+If you’re reviewing this repo, feel free to reach out. Feedback is welcome!
+
