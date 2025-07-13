@@ -7,8 +7,9 @@ const minute = String(now.getMinutes()).padStart(2, '0');
 
 const filename = `sensor_${hour}${minute}.json`;
 
-// Create folder path
+// Create local folder path
 msg.localpath = `C:/Users/vijay/Desktop/GCT Project/raw/Year ${year}/Month ${month}/Day ${day}/${hour}/${filename}`;
+// Create S3 folder path
 msg.filename = `raw/${year}/${month}/${day}/${hour}/${filename}`;
 
 msg.payload = JSON.stringify({
