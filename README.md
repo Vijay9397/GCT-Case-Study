@@ -1,10 +1,23 @@
-# 🌿 GCT Case Study – CO₂ Plant Data Pipeline (By Vijay)
+# 🌿 GCT Case Study – CO₂ Plant Data Pipeline 
 
 ## 👋 Introduction
 
 This project is part of the GCT Case Study Challenge, where I’ve built a fully functional data pipeline that simulates a CO₂ capturing plant's sensor system. My goal was to ingest real-time data, structure it in the cloud, and automatically process it — using only AWS free-tier tools.
 
 This README documents my process, tools, and how the system works end-to-end.
+
+---
+## ⚙️ Architecture Overview
+
+graph TD
+  A[Node-RED<br>Sensor Simulator] --> B[Local Storage<br>(Raw JSON Files)]
+  A --> C[S3 Bucket<br>co2-plant-raw-data]
+  C --> D[Lambda Trigger<br>on Upload]
+  D --> E[Lambda Function<br>Data Aggregation + Alerts]
+  E --> F[Processed S3 Bucket<br>co2-plant-processed-data]
+  F --> G[AWS Glue Crawler]
+  G --> H[Athena SQL Queries]
+  H --> I[QuickSight Dashboard]
 
 ---
 
@@ -143,4 +156,6 @@ Thresholds for alerts:
 Hi! I’m Vijay. This case study was a great hands-on experience where I learned to think like a systems integrator — working with real-time data, serverless compute, and cloud architecture, all from the ground up.
 
 If you’re reviewing this repo, feel free to reach out. Feedback is welcome!
+
+Mail_id: vijaysdeutsch@gamil.com
 
