@@ -143,8 +143,9 @@ Thresholds for alerts:
 
 ```mermaid
 graph TD
-  A[Node-RED Sensor Simulator] --> B[Local Storage - Raw JSON Files]
-  B --> C[S3 Bucket - co2-plant-raw-data]
+  A[Node-RED Sensor Simulator]
+  A --> B[Local Storage - Raw JSON Files]
+  A --> C[S3 Bucket - co2-plant-raw-data]
   C --> D[Lambda Trigger - On Upload]
   D --> E[Lambda Function - Aggregation + Alerts]
   E --> F[S3 Bucket - co2-plant-processed-data]
