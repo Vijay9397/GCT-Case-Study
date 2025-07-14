@@ -7,19 +7,6 @@ This project is part of the GCT Case Study Challenge, where I’ve built a fully
 This README documents my process, tools, and how the system works end-to-end.
 
 ---
-## ⚙️ Architecture Overview
-
-graph TD
-  A[Node-RED<br>Sensor Simulator] --> B[Local Storage<br>(Raw JSON Files)]
-  A --> C[S3 Bucket<br>co2-plant-raw-data]
-  C --> D[Lambda Trigger<br>on Upload]
-  D --> E[Lambda Function<br>Data Aggregation + Alerts]
-  E --> F[Processed S3 Bucket<br>co2-plant-processed-data]
-  F --> G[AWS Glue Crawler]
-  G --> H[Athena SQL Queries]
-  H --> I[QuickSight Dashboard]
-
----
 
 ## 🧪 Project Summary
 
@@ -124,18 +111,20 @@ Thresholds for alerts:
 
 ---
 
-## 🚧 Improvements I’m Planning
+## 🚧 Future Plans
 
-- Add unit tests for the Lambda function.
-- Push alerts to a dashboard or SNS topic.
-- Automatically visualize processed stats in Grafana or QuickSight.
-- Replace hardcoded alert rules with config stored in S3 or DynamoDB.
+- Anomaly Detection (ML-Based)
+- Time Series Forecasting
+- Data Quality Checks
+- Cost Optimization & Cold Storage
 
 ---
 
-## 📂 Repository Structure (Suggested)
+## 📂 Repository Structure 
 
 ```
+📁 Documents/
+  └── Case Study.pdf                             ← Node-RED flow export
 📁 node-red/
   └── gct-flow.json                              ← Node-RED flow export
 📁 lambda/
@@ -143,14 +132,27 @@ Thresholds for alerts:
 📁 samples/
   └── sensor_sample.json                         ← Sample input file
 📁 screenshots/
-  └── *.png                                      ← Visual evidence (Node-RED UI, Glue, Athena, QuickSight)
-📄 README.md                                     ← This file   
-📄 Case Study Data & Process Analytics.pdf       ← This file 
-📄 Vijay_Presentation.pptx                       ← This file
+  └──📁 AWS/                                     ← AWS screenshots
+      └── Dashboard.png                           ← Visual evidence (Node-RED UI, Glue, Athena, QuickSight)
+  └── AWS.png                                     ← Sample Dashboard
+📄 README.md                                     ← Readme File   
+📄 Vijay_Presentation.pptx                       ← Case Study Presentation
 ```
-
 ---
+## ⚙️ Architecture Overview
 
+```mermaid
+graph TD
+  A[Node-RED<br>Sensor Simulator] --> B[Local Storage<br>(Raw JSON Files)]
+  B --> C[S3 Bucket<br>co2-plant-raw-data]
+  C --> D[Lambda Trigger<br>on Upload]
+  D --> E[Lambda Function<br>Data Aggregation + Alerts]
+  E --> F[Processed S3 Bucket<br>co2-plant-processed-data]
+  F --> G[AWS Glue Crawler]
+  G --> H[Athena SQL Queries]
+  H --> I[QuickSight Dashboard]
+```
+---
 ## 🤝 About Me
 
 Hi! I’m Vijay. This case study was a great hands-on experience where I learned to think like a systems integrator — working with real-time data, serverless compute, and cloud architecture, all from the ground up.
