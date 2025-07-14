@@ -143,11 +143,11 @@ Thresholds for alerts:
 
 ```mermaid
 graph TD
-  A[Node-RED<br>Sensor Simulator] --> B[Local Storage<br>(Raw JSON Files)]
-  B --> C[S3 Bucket<br>co2-plant-raw-data]
-  C --> D[Lambda Trigger<br>on Upload]
-  D --> E[Lambda Function<br>Data Aggregation + Alerts]
-  E --> F[Processed S3 Bucket<br>co2-plant-processed-data]
+  A[Node-RED Sensor Simulator] --> B[Local Storage - Raw JSON Files]
+  B --> C[S3 Bucket - co2-plant-raw-data]
+  C --> D[Lambda Trigger - On Upload]
+  D --> E[Lambda Function - Aggregation + Alerts]
+  E --> F[S3 Bucket - co2-plant-processed-data]
   F --> G[AWS Glue Crawler]
   G --> H[Athena SQL Queries]
   H --> I[QuickSight Dashboard]
