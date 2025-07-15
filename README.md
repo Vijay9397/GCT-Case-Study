@@ -229,6 +229,9 @@ graph TD
   G3 --> H[AWS Glue Crawler]
   H --> I[Athena SQL Queries]
   G3 --> J[QuickSight Forecast Dashboard]
+  F --> H[AWS Glue Crawler]
+  H --> I[Athena SQL Queries]
+  I --> J[QuickSight Forecast Dashboard]
   I --> J
 ```
 ---
