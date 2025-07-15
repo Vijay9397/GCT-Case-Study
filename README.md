@@ -226,8 +226,6 @@ graph TD
   F --> G1[Forecasting Input CSV for Prophet]
   G1 --> G2[SageMaker Notebook with Prophet]
   G2 --> G3[Forecast Output CSV]
-  G3 --> H[AWS Glue Crawler]
-  H --> I[Athena SQL Queries]
   G3 --> J[QuickSight Forecast Dashboard]
   F --> H[AWS Glue Crawler]
   H --> I[Athena SQL Queries]
