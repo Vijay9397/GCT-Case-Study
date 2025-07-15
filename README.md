@@ -230,7 +230,6 @@ graph TD
   F --> H[AWS Glue Crawler]
   H --> I[Athena SQL Queries]
   I --> J[QuickSight Forecast Dashboard]
-  I --> J
 ```
 ---
 ## 🤝 About Me
